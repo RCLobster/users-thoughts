@@ -16,8 +16,14 @@ const userSchema = new Schema(
         lowercase: true,
         match: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/,
     },
-    thoughts: [thoughtSchema],
-    friends: [userSchema._id]
+    thoughts: [{
+        type: Schema.Types.ObjectId,
+        ref: 'thought'
+    }],
+    friends: [{
+        type: Schema.Types.ObjectId,
+        ref: 'user'
+    }],
   }
 );
 
