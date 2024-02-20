@@ -9,4 +9,15 @@ const userData = [
     }
 ];
 
-module.exports = { userData };
+const thoughtData = [
+    {
+        thoughtText: 'Do crabs think fish are flying?',
+        username: 'EStone'
+    },
+    {
+        thoughtText: 'Will I ever have a better class than my current one?',
+        username: 'BSwarthout'
+    }
+];
+
+module.exports = { userData, thoughtData };
