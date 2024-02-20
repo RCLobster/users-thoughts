@@ -1,4 +1,12 @@
+const userData = [
+    {
+        username: 'EStone',
+        email: 'e@gmail.com',
+    },
+    {
+        username: 'BSwarthout',
+        email: 'b@gamil.com',
+    }
+];
 
-
-// Export the functions for use in seed.js
-//module.exports = {  };
+module.exports = { userData };
