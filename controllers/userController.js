@@ -19,5 +19,13 @@ module.exports = {
             res.status(500).json(err);
         }
     },
-
+    //POST create new user
+    async createUser(req, res) {
+        try {
+          const user = await Users.create(req.body);
+          res.json(user);
+        } catch (err) {
+          res.status(500).json(err);
+        }
+      },
 };

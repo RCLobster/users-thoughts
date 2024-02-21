@@ -13,7 +13,7 @@ const userSchema = new Schema(
         unique: true,
         require: true,
         lowercase: true,
-        match: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/,
+        match: /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,6}$/,
     },
     thoughts: [{
         type: Schema.Types.ObjectId,
