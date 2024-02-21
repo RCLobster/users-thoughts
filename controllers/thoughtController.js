@@ -55,7 +55,7 @@ module.exports = {
     //POST new reaction to thought
     async createReaction(req, res) {
         try {
-            const thought = await Thought.findOneAndDelete(
+            const thought = await Thought.findOneAndUpdate(
                 { _id: req.params.thoughtId },
                 { $addToSet: { reactions: req.body } },
                 { new: true },
@@ -73,9 +73,9 @@ module.exports = {
     //DELETE reaction by id
     async deleteReaction(req, res) {
         try {
-            const reaction = await Thought.findOneAndDelete(
-                { _id: req.params.reactionId },
-                // { $pull: { reactions: req.params.reactionId } },
+            const reaction = await Thought.findOneAndUpdate(
+                { _id: req.params.thoughtId },
+                { $pull: { reactions: { reactionId: req.params.reactionId } } },
                 { new: true },
                 );
 

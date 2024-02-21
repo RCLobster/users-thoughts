@@ -62,11 +62,11 @@ module.exports = {
         }
     },
     // POST add friend to userId
-    async addFriend(req,res) {
+    async addFriend(req, res) {
         try {
             const user = await Users.findByIdAndUpdate(
                 { _id: req.params.userId },
-                { $addToSet: { friends: req.params.friendId  } },
+                { $addToSet: { friends: req.params.friendId } },
                 { new: true }
             );
 
@@ -76,7 +76,26 @@ module.exports = {
 
             res.json(user);
 
-        } catch(err) {
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    },
+    // DELETE friend from userId
+    async deleteFriend(req, res) {
+        try {
+            const user = await Users.findByIdAndUpdate(
+                { _id: req.params.userId },
+                { $pull: { friends: req.params.friendId } },
+                { new: true }
+            );
+
+            if (!user) {
+                return res.status(404).json({ message: 'No user with that ID' });
+            }
+
+            res.json({message: 'Friend deleted'});
+
+        } catch (err) {
             res.status(500).json(err);
         }
     }
