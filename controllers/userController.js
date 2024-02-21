@@ -1,4 +1,4 @@
-const { Users, Thought } = require('../models');
+const { Users } = require('../models');
 
 module.exports = {
     // GET all users
@@ -6,7 +6,7 @@ module.exports = {
         try {
             const users = await Users.find();
             res.json(users);
-        } catch(err) {
+        } catch (err) {
             res.status(500).json(err);
         }
     },
@@ -15,17 +15,66 @@ module.exports = {
         try {
             const users = await Users.findById({ _id: req.params.userId });
             res.json(users);
-        } catch(err) {
+        } catch (err) {
             res.status(500).json(err);
         }
     },
     //POST create new user
     async createUser(req, res) {
         try {
-          const user = await Users.create(req.body);
-          res.json(user);
+            const user = await Users.create(req.body);
+            res.json(user);
         } catch (err) {
-          res.status(500).json(err);
+            res.status(500).json(err);
         }
-      },
+    },
+    //PUT to update user by id
+    async updateUser(req, res) {
+        try {
+            const user = await Users.findOneAndUpdate(
+                { _id: req.params.userId },
+                { $set: req.body },
+            );
+
+            if (!user) {
+                return res.status(404).json({ message: 'No user with that ID' });
+            }
+
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    },
+    //DELETE user by id
+    async deleteUser(req, res) {
+        try {
+            const user = await Users.findOneAndDelete({ _id: req.params.userId });
+
+            if (!user) {
+                return res.status(404).json({ message: 'No user with that ID' });
+            }
+
+            // await Thought.deleteMany({ _id: { $in: user.Thought } });
+            // res.json({ message: 'User and associated thoughts deleted!' })
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    },
+    // POST add friend to userId
+    async addFriend(req,res) {
+        try {
+            const user = await Users.findByIdAndUpdate(
+                { _id: req.params.userId },
+                { $addToSet: { friends: { friendId: req.params.friendId } } }
+            );
+
+            if (!user) {
+                return res.status(404).json({ message: 'No user with that ID' });
+            }
+
+            res.json(user);
+
+        } catch(err) {
+            res.status(500).json(err);
+        }
+    }
 };
