@@ -40,6 +40,8 @@ module.exports = {
                 return res.status(404).json({ message: 'No user with that ID' });
             }
 
+            res.status(200).json(user);
+
         } catch (err) {
             res.status(500).json(err);
         }
@@ -54,7 +56,7 @@ module.exports = {
             }
 
             // await Thought.deleteMany({ _id: { $in: user.Thought } });
-            // res.json({ message: 'User and associated thoughts deleted!' })
+            res.json({ message: 'User and associated thoughts deleted!' })
         } catch (err) {
             res.status(500).json(err);
         }
@@ -64,7 +66,8 @@ module.exports = {
         try {
             const user = await Users.findByIdAndUpdate(
                 { _id: req.params.userId },
-                { $addToSet: { friends: { friendId: req.params.friendId } } }
+                { $addToSet: { friends: req.params.friendId  } },
+                { new: true }
             );
 
             if (!user) {
